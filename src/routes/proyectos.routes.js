@@ -127,6 +127,29 @@ const router = Router();
  *           type: string
  *           format: date-time
  *           nullable: true
+	*     ProyectoInput:
+	*       type: object
+	*       required: [nombre, estado, fechaInicio]
+	*       properties:
+	*         nombre:
+	*           type: string
+	*           example: Rediseño portal corporativo
+	*         descripcion:
+	*           type: string
+	*           example: Actualización completa del portal web y CMS.
+	*         estado:
+	*           type: string
+	*           enum: [EN_PROGRESO, FINALIZADO, PENDIENTE]
+	*           example: EN_PROGRESO
+	*         fechaInicio:
+	*           type: string
+	*           format: date-time
+	*           example: 2025-10-01T00:00:00.000Z
+	*         fechaFin:
+	*           type: string
+	*           format: date-time
+	*           nullable: true
+	*           example: 2025-11-15T00:00:00.000Z
  */
 
 router.post('/', controller.crearProyecto);

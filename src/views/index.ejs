@@ -3,106 +3,268 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Proyectos</title>
+  <title>ProjectInsight · Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <link href="/assets/css/index.css" rel="stylesheet" />
 </head>
-<body class="bg-light">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="/">Prueba Técnica</a>
-    </div>
-  </nav>
-
-  <main class="container py-4">
-    <h1 class="h3 mb-3">Proyectos</h1>
-
-    <div class="row g-4">
-      <div class="col-12 col-lg-4">
-        <div class="card">
-          <div class="card-header">Registrar proyecto</div>
-          <div class="card-body">
-            <form id="formProyecto" class="vstack gap-2">
-              <input class="form-control" name="nombre" placeholder="Nombre" required />
-              <textarea class="form-control" name="descripcion" placeholder="Descripción"></textarea>
-              <select class="form-select" name="estado" required>
-                <option value="EN_PROGRESO">En progreso</option>
-                <option value="FINALIZADO">Finalizado</option>
-                <option value="PENDIENTE">Pendiente</option>
-              </select>
-              <input class="form-control" name="fechaInicio" type="date" required />
-              <input class="form-control" name="fechaFin" type="date" />
-              <button class="btn btn-primary" type="submit">Guardar</button>
-            </form>
-          </div>
-        </div>
+<body>
+  <div class="dashboard">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="avatar">P</div>
+        <div class="sidebar-logo">ProjectInsight</div>
       </div>
+      <nav class="sidebar-nav">
+        <a class="nav-link active" href="#"><i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span></a>
+        <a class="nav-link" href="#proyectos"><i class="bi bi-folder2-open"></i><span>Proyectos</span></a>
+        <a class="nav-link" href="#analitica"><i class="bi bi-bar-chart-line"></i><span>Analítica</span></a>
+        <a class="nav-link" href="#ia"><i class="bi bi-robot"></i><span>IA Resumen</span></a>
+      </nav>
+      <div class="sidebar-footer">Panel de control con enfoque en gestión de proyectos, visualización y automatización.</div>
+    </aside>
 
-      <div class="col-12 col-lg-8">
-        <div class="card">
-          <div class="card-header d-flex align-items-center justify-content-between">
-            <span>Listado</span>
-            <button id="btnAnalisis" class="btn btn-sm btn-outline-secondary">Generar análisis</button>
+    <div class="main-area">
+      <header class="topbar">
+        <h2 class="topbar-title">ProjectInsight</h2>
+      </header>
+
+      <main class="content">
+        <section class="intro">
+          <div>
+            <h1>Panel de control</h1>
+            <p>Seguimiento integral de proyectos, analítica visual y resúmenes asistidos por IA.</p>
+          </div>
+          <button class="btn btn-primary" id="btnNuevoProyecto" type="button">
+            <i class="bi bi-plus-lg me-2"></i>Nuevo proyecto
+          </button>
+        </section>
+
+        <section class="kpi-grid" id="analitica">
+          <article class="card kpi-card">
+            <div class="kpi-icon" style="background: rgba(37, 99, 235, 0.12); color: var(--color-primary);">
+              <i class="bi bi-kanban"></i>
+            </div>
+            <div class="kpi-meta">
+              <span class="kpi-label">Total de proyectos</span>
+              <span class="kpi-value" id="kpiTotal">0</span>
+              <span class="kpi-detail">Panorama global de iniciativas activas y pasadas.</span>
+            </div>
+          </article>
+          <article class="card kpi-card">
+            <div class="kpi-icon" style="background: rgba(37, 99, 235, 0.1); color: var(--color-primary);">
+              <i class="bi bi-lightning-charge"></i>
+            </div>
+            <div class="kpi-meta">
+              <span class="kpi-label">Proyectos activos</span>
+              <span class="kpi-value" id="kpiActivos">0</span>
+              <span class="kpi-detail">Esfuerzos en curso y prioridad inmediata.</span>
+            </div>
+          </article>
+          <article class="card kpi-card">
+            <div class="kpi-icon" style="background: rgba(16, 185, 129, 0.12); color: #047857;">
+              <i class="bi bi-check-circle"></i>
+            </div>
+            <div class="kpi-meta">
+              <span class="kpi-label">Proyectos finalizados</span>
+              <span class="kpi-value" id="kpiFinalizados">0</span>
+              <span class="kpi-detail">Entrega acumulada durante el periodo seleccionado.</span>
+            </div>
+          </article>
+          <article class="card kpi-card">
+            <div class="kpi-icon" style="background: rgba(124, 58, 237, 0.12); color: var(--color-secondary);">
+              <i class="bi bi-speedometer2"></i>
+            </div>
+            <div class="kpi-meta">
+              <span class="kpi-label">Productividad promedio</span>
+              <span class="kpi-value" id="kpiProductividad">--</span>
+              <span class="kpi-detail">Porcentaje de finalización respecto al total asociado.</span>
+            </div>
+          </article>
+        </section>
+
+        <section class="chart-grid">
+          <article class="card chart-card">
+            <div class="card-header">
+              <div class="d-flex flex-column gap-1">
+                <span class="kpi-label">Analítica</span>
+                <strong>Proyectos por estado</strong>
+                <span class="kpi-detail">Comparativa rápida de cargas de trabajo.</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <canvas id="chartEstadosBar" height="240"></canvas>
+            </div>
+          </article>
+
+          <article class="card chart-card">
+            <div class="card-header">
+              <div class="d-flex flex-column gap-1">
+                <span class="kpi-label">Distribución</span>
+                <strong>Participación por estado</strong>
+                <span class="kpi-detail">Porcentaje de proyectos por fase.</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <canvas id="chartEstadosDonut" height="240"></canvas>
+            </div>
+          </article>
+
+          <article class="card chart-card chart-card-wide">
+            <div class="card-header">
+              <div class="d-flex flex-column gap-1">
+                <span class="kpi-label">Tendencia</span>
+                <strong>Inicio de proyectos por mes</strong>
+                <span class="kpi-detail">Evolución temporal de nuevas iniciativas.</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <canvas id="chartTimeline" height="280"></canvas>
+            </div>
+          </article>
+        </section>
+
+        <section class="card projects-section" id="proyectos">
+          <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div>
+              <span class="kpi-label">Tabla</span>
+              <div class="d-flex align-items-center gap-2">
+                <strong>Listado de proyectos</strong>
+                <span class="status-chip">Actualizado</span>
+              </div>
+              <p class="kpi-detail mb-0">Vista tipo Linear con acciones rápidas y registro inmediato.</p>
+            </div>
           </div>
           <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-sm align-middle" id="tabla">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Estado</th>
-                    <th>Inicio</th>
-                    <th>Fin</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
-            </div>
-            <hr />
-            <h5 class="mt-3">Distribución por estado</h5>
-            <canvas id="chartEstados" height="120"></canvas>
-            <div class="mt-3">
-              <h5>Resumen IA</h5>
-              <pre id="resumenIA" class="bg-body-secondary p-2 rounded" style="white-space: pre-wrap;"></pre>
+            <div class="projects-grid">
+              <div class="table-wrapper">
+                <table class="table table-hover align-middle mb-0" id="tabla">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Nombre</th>
+                      <th class="col-status">Estado</th>
+                      <th class="col-date">Inicio</th>
+                      <th class="col-date">Fin</th>
+                      <th class="text-end col-actions">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+
+              <div class="form-card">
+                <div>
+                  <span class="kpi-label">Nuevo</span>
+                  <h3>Registrar proyecto</h3>
+                  <p class="kpi-detail">Completa los campos para agregar una iniciativa.</p>
+                </div>
+                <form id="formProyecto" class="d-grid gap-3">
+                  <div>
+                    <label class="form-label">Nombre</label>
+                    <input class="form-control" name="nombre" placeholder="Website corporativo" required />
+                  </div>
+                  <div>
+                    <label class="form-label">Descripción</label>
+                    <textarea class="form-control" name="descripcion" rows="3" placeholder="Contexto breve del proyecto"></textarea>
+                  </div>
+                  <div class="row g-2 align-items-end">
+                    <div class="col-12 col-lg-7">
+                      <label class="form-label">Estado</label>
+                      <select class="form-select" name="estado" required>
+                        <option value="EN_PROGRESO">En progreso</option>
+                        <option value="FINALIZADO">Finalizado</option>
+                        <option value="PENDIENTE">Pendiente</option>
+                      </select>
+                    </div>
+                    <div class="col-12 col-lg-5">
+                      <label class="form-label">Inicio</label>
+                      <input class="form-control" name="fechaInicio" type="date" required />
+                    </div>
+                  </div>
+                  <div>
+                    <label class="form-label">Fecha fin</label>
+                    <input class="form-control" name="fechaFin" type="date" />
+                  </div>
+                  <button class="btn btn-primary" type="submit">Guardar proyecto</button>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </section>
+
+        <section class="card ia-card" id="ia">
+          <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <div>
+              <span class="ia-caption">Resumen generativo</span>
+              <h2 class="mb-0">Insights automatizados</h2>
+              <p class="kpi-detail mb-0">Genera análisis en lenguaje natural impulsado por tu API de IA favorita.</p>
+            </div>
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline-primary btn-sm" id="btnAnalisis" type="button">
+                <i class="bi bi-stars me-1"></i>Generar resumen
+              </button>
+              <button class="btn btn-outline-secondary btn-sm" id="btnAnalisisLimpiar" type="button">
+                Limpiar
+              </button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="kpi-detail mb-2">🧠 Resumen generado automáticamente</div>
+            <pre id="resumenIA" class="ia-output">Pulsa "Generar resumen" para obtener el análisis más reciente.</pre>
+          </div>
+        </section>
+      </main>
     </div>
-  </main>
+  </div>
 
   <!-- Modal de edición -->
   <div class="modal fade" id="modalEditar" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content modal-glass">
         <div class="modal-header">
-          <h5 class="modal-title">Editar Proyecto</h5>
+          <div>
+            <span class="kpi-label">Editar</span>
+            <h5 class="modal-title mb-0">Actualizar proyecto</h5>
+          </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          <form id="formEditar" class="vstack gap-2">
+          <form id="formEditar" class="vstack gap-3">
             <input type="hidden" id="editId" />
-            <label>Nombre</label>
-            <input class="form-control" id="editNombre" required />
-            <label>Descripción</label>
-            <textarea class="form-control" id="editDescripcion"></textarea>
-            <label>Estado</label>
-            <select class="form-select" id="editEstado" required>
-              <option value="EN_PROGRESO">En progreso</option>
-              <option value="FINALIZADO">Finalizado</option>
-              <option value="PENDIENTE">Pendiente</option>
-            </select>
-            <label>Fecha Inicio</label>
-            <input class="form-control" id="editFechaInicio" type="date" required />
-            <label>Fecha Fin</label>
-            <input class="form-control" id="editFechaFin" type="date" />
+            <div>
+              <label class="form-label">Nombre</label>
+              <input class="form-control" id="editNombre" required />
+            </div>
+            <div>
+              <label class="form-label">Descripción</label>
+              <textarea class="form-control" id="editDescripcion" rows="3"></textarea>
+            </div>
+            <div class="row g-2 align-items-end">
+              <div class="col-12 col-lg-7">
+                <label class="form-label">Estado</label>
+                <select class="form-select" id="editEstado" required>
+                  <option value="EN_PROGRESO">En progreso</option>
+                  <option value="FINALIZADO">Finalizado</option>
+                  <option value="PENDIENTE">Pendiente</option>
+                </select>
+              </div>
+              <div class="col-12 col-lg-5">
+                <label class="form-label">Fecha inicio</label>
+                <input class="form-control" id="editFechaInicio" type="date" required />
+              </div>
+            </div>
+            <div>
+              <label class="form-label">Fecha fin</label>
+              <input class="form-control" id="editFechaFin" type="date" />
+            </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="button" class="btn btn-primary" id="btnGuardarEdicion">Guardar cambios</button>
         </div>
       </div>
@@ -112,134 +274,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios@1.7.7/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <script>
-    const api = axios.create({ baseURL: '/api' });
-
-    async function cargarTabla() {
-      const { data } = await api.get('/proyectos');
-      const tbody = document.querySelector('#tabla tbody');
-      tbody.innerHTML = '';
-      for (const p of data) {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${p.id}</td>
-          <td>${p.nombre}</td>
-          <td>${p.estado}</td>
-          <td>${new Date(p.fechaInicio).toLocaleDateString()}</td>
-          <td>${p.fechaFin ? new Date(p.fechaFin).toLocaleDateString() : ''}</td>
-          <td>
-            <button class="btn btn-sm btn-outline-primary me-1 btn-editar" data-id="${p.id}">Editar</button>
-            <button class="btn btn-sm btn-outline-danger btn-eliminar" data-id="${p.id}">Eliminar</button>
-          </td>
-        `;
-        tr.querySelector('.btn-editar').addEventListener('click', async (e) => {
-          const id = e.target.getAttribute('data-id');
-          await abrirModalEditar(id);
-        });
-        tr.querySelector('.btn-eliminar').addEventListener('click', async (e) => {
-          const id = e.target.getAttribute('data-id');
-          if (confirm('¿Eliminar este proyecto?')) {
-            await api.delete(`/proyectos/${id}`);
-            await cargarTodo();
-          }
-        });
-        tbody.appendChild(tr);
-      }
-    }
-
-    async function cargarGrafico() {
-      const { data } = await api.get('/graficos');
-      const ctx = document.getElementById('chartEstados');
-      if (window._chart) window._chart.destroy();
-      window._chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: data.labels,
-          datasets: [{ label: 'Proyectos', data: data.data }]
-        }
-      });
-    }
-
-    function cargarAnalisis() {
-      const pre = document.getElementById('resumenIA');
-      pre.textContent = 'Generando análisis...';
-
-      const eventSource = new EventSource('/api/analisis');
-      let textoAcumulado = '';
-
-      eventSource.onmessage = (event) => {
-        try {
-          const data = JSON.parse(event.data);
-          if (data.done) {
-            // Stream terminó
-            pre.textContent = data.resumen || textoAcumulado;
-            eventSource.close();
-          } else if (data.chunk) {
-            // Nuevo chunk de texto
-            textoAcumulado += data.chunk;
-            pre.textContent = textoAcumulado;
-          }
-        } catch (err) {
-          console.error('Error parseando SSE:', err);
-        }
-      };
-
-      eventSource.onerror = (err) => {
-        console.error('Error en EventSource:', err);
-        pre.textContent = 'Error al generar análisis. Verifica la consola.';
-        eventSource.close();
-      };
-    }
-
-    async function cargarTodo() {
-      await cargarTabla();
-      await cargarGrafico();
-    }
-
-    async function abrirModalEditar(id) {
-      const { data: proyecto } = await api.get(`/proyectos/${id}`);
-      document.getElementById('editId').value = proyecto.id;
-      document.getElementById('editNombre').value = proyecto.nombre;
-      document.getElementById('editDescripcion').value = proyecto.descripcion || '';
-      document.getElementById('editEstado').value = proyecto.estado;
-      document.getElementById('editFechaInicio').value = new Date(proyecto.fechaInicio).toISOString().split('T')[0];
-      document.getElementById('editFechaFin').value = proyecto.fechaFin 
-        ? new Date(proyecto.fechaFin).toISOString().split('T')[0] 
-        : '';
-      const modal = new bootstrap.Modal(document.getElementById('modalEditar'));
-      modal.show();
-    }
-
-    document.getElementById('btnGuardarEdicion').addEventListener('click', async () => {
-      const id = document.getElementById('editId').value;
-      const payload = {
-        nombre: document.getElementById('editNombre').value,
-        descripcion: document.getElementById('editDescripcion').value,
-        estado: document.getElementById('editEstado').value,
-        fechaInicio: new Date(document.getElementById('editFechaInicio').value).toISOString(),
-        fechaFin: document.getElementById('editFechaFin').value 
-          ? new Date(document.getElementById('editFechaFin').value).toISOString() 
-          : null,
-      };
-      await api.put(`/proyectos/${id}`, payload);
-      bootstrap.Modal.getInstance(document.getElementById('modalEditar')).hide();
-      await cargarTodo();
-    });
-
-    document.getElementById('formProyecto').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const fd = new FormData(e.target);
-      const payload = Object.fromEntries(fd.entries());
-      if (payload.fechaInicio) payload.fechaInicio = new Date(payload.fechaInicio).toISOString();
-      if (payload.fechaFin) payload.fechaFin = new Date(payload.fechaFin).toISOString();
-      await api.post('/proyectos', payload);
-      e.target.reset();
-      await cargarTodo();
-    });
-
-    document.getElementById('btnAnalisis').addEventListener('click', cargarAnalisis);
-
-    cargarTodo();
-  </script>
+  <script src="/assets/js/index.js"></script>
 </body>
 </html>

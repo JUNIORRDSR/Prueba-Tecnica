@@ -33,6 +33,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.use('/assets', express.static(path.join(__dirname, 'public', 'assets')));
 
 // Configurar Swagger en /docs
 setupSwagger(app);
