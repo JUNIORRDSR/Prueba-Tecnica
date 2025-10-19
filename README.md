@@ -30,6 +30,7 @@ Panel fullstack para gestión de proyectos que combina una API REST en Node.js, 
 - npm 10+
 
 ### 2. Variables de entorno
+
 Crea un archivo `.env` en la raíz con al menos:
 
 ```env
@@ -37,10 +38,11 @@ PORT=3000
 DATABASE_URL="postgresql://user:password@localhost:5432/pruebas?schema=public"
 # Opcional: habilita DeepSeek
 # DEEPSEEK_API_KEY=sk-...
+```
 
 ### 3. Instalación
 
-bash
+```bash
 npm install
 npx prisma migrate deploy   # o npx prisma migrate dev --name init
 npx prisma generate
@@ -114,36 +116,43 @@ docker compose up --build
 
 Si prefieres evitar la build local, puedes tirar del registry y ejecutar directamente la imagen publicada `juniorrdsr/prueba-tecnica:latest`.
 
-1) Crear red y base de datos con alias `postgres`:
+1. Crear red y base de datos con alias `postgres`:
 
 ```bash
 docker network create projectinsight-net
 
 docker run -d \
-	--name projectinsight-db \
-	--network projectinsight-net \
-	--network-alias postgres \
-	-e POSTGRES_DB=pruebas \
-	-e POSTGRES_USER=postgres \
-	-e POSTGRES_PASSWORD=postgres \
-	-v projectinsight-data:/var/lib/postgresql/data \
-	postgres:16-alpine
+  --name projectinsight-db \
+  --network projectinsight-net \
+  --network-alias postgres \
+  -e POSTGRES_DB=pruebas \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -v projectinsight-data:/var/lib/postgresql/data \
+  postgres:16-alpine
 ```
 
-2) Levantar la app desde Docker Hub:
+2. Levantar la app desde Docker Hub:
 
 ```bash
 docker run -d \
-	--name projectinsight-app \
-	--network projectinsight-net \
-	-p 3000:3000 \
-	-e PORT=3000 \
-	-e DATABASE_URL="postgresql://postgres:postgres@postgres:5432/pruebas" \
-	-e DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-} \
-	juniorrdsr/prueba-tecnica:latest
+  --name projectinsight-app \
+  --network projectinsight-net \
+  -p 3000:3000 \
+  -e PORT=3000 \
+  -e DATABASE_URL="postgresql://postgres:postgres@postgres:5432/pruebas" \
+  -e DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-} \
+  juniorrdsr/prueba-tecnica:latest
 ```
 
-3) Verificar:
+3. Verificar:
 
-- Dashboard: http://localhost:3000/
-- Swagger: http://localhost:3000/docs
+- Dashboard: <http://localhost:3000/>
+- Swagger: <http://localhost:3000/docs>
+
+## 📱 Vista móvil (Samsung S20 Ultra)
+
+<!-- markdownlint-disable-next-line MD033 -->
+<p align="center">
+  <img src="docs/screenshots/image4.png" alt="Vista móvil Samsung S20 Ultra" width="300" />
+</p>
