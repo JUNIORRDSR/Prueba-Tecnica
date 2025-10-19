@@ -2,6 +2,8 @@
 
 Panel fullstack para gestión de proyectos que combina una API REST en Node.js, base de datos PostgreSQL con Prisma, documentación Swagger, visualizaciones en tiempo real y un resumen generado por IA.
 
+> 📄 **Documentación Técnica Completa**: [Markdown](docs/DOCUMENTACION_TECNICA.md) | [PDF](docs/DOCUMENTACION_TECNICA.pdf)
+
 ![Vista del dashboard](docs/screenshots/image.png)
 
 ## ✨ Características principales
